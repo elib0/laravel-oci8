@@ -1,4 +1,5 @@
 {
+    "version": "5.3.6-dev",
     "name": "yajra/laravel-oci8",
     "description": "Oracle DB driver for Laravel 4|5 via OCI8",
     "keywords" : ["laravel4","laravel5","laravel","oracle","oci8","pdo_oci"],
