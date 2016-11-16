@@ -204,7 +204,8 @@ class OracleGrammar extends Grammar
 
         $value = $this->isReserved($value) ? Str::lower($value) : Str::upper($value);
 
-        return '"' . str_replace('"', '""', $value) . '"';
+        return $value;
+        // return '"' . str_replace('"', '""', $value) . '"';
     }
 
     /**
