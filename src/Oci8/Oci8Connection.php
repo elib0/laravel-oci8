@@ -246,17 +246,24 @@ class Oci8Connection extends Connection
      *
      * @param string $procedureName
      * @param array $bindings
-     * @param mixed $returnType
+     * @param mixed $returnType ($returnType = -1: omit the cursor)
      * @return array
      */
     public function executeProcedure($procedureName, $bindings, $returnType = PDO::PARAM_STMT)
     {
-        $command = sprintf('begin %s(:%s, :cursor); end;', $procedureName, implode(', :', array_keys($bindings)));
+        $noCursor = ($returnType === -1);
+
+        $command = sprintf('begin %s(:%s'. ($noCursor ? '' : ', :cursor') . '); end;', $procedureName, implode(', :', array_keys($bindings)));
 
         $stmt = $this->getPdo()->prepare($command);
 
         foreach ($bindings as $bindingName => &$bindingValue) {
             $stmt->bindParam(':' . $bindingName, $bindingValue);
+        }
+
+        if ($noCursor) {
+            $stmt->execute();
+            return;
         }
 
         $cursor = null;
